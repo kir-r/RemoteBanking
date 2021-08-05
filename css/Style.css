@@ -94,13 +94,6 @@ align-items: center;
    justify-content: space-around;
    align-items: center;
    }
-   td.arrival, .group_arrival {
-   color: rgb(0, 165, 55);
-   }
-   td.spend,
-   .group_spend {
-   color: rgb(230, 10, 10);
-   }
    .label_checkbox {
    font-size: 20px;
    }

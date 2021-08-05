@@ -1,4 +1,4 @@
-const myStatementData = [
+const dataBaseJSONString = [
     {
         _id: '5ae17f666641d44ec7d772e1',
         date: '2015-02-12T06:40:26',
@@ -300,3 +300,133 @@ const myStatementData = [
         amount: 89428.83,
     },
 ];
+
+let statementMap = new Map();
+
+dataBaseJSONString.sort(function(a, b) {
+    return new Date(a.date).getTime() - new Date(b.date).getTime(); //отсортировал по дате
+});
+
+for (let i = 0; i < dataBaseJSONString.length; i++) {
+    let statement = getStatementFromDatabase(dataBaseJSONString[i]); //получил из базы данных
+    fillTable(statement) //заполнение таблицы
+    setStatementToMap(statement);
+}
+
+fillTableGroupByDate();
+
+function getStatementFromDatabase(statementFromDatabase) {
+    let fullDate = new Date(statementFromDatabase.date);
+    let statementDate = fullDate.toLocaleDateString('ru-RU');
+    let statementTime = fullDate.toLocaleTimeString('ru-RU');
+    let statement = {
+        date : statementDate,
+        time : statementTime,
+        type : statementFromDatabase.type
+    }
+    let statementAmount = statementFromDatabase.amount;
+    if (statementAmount > 0) {
+        statement.receipt = statementAmount;
+        statement.expense = 0;
+    } else {
+        statement.receipt = 0;
+        statement.expense = statementAmount;
+    }
+    return statement;
+}
+
+function fillTable(statement) {
+    let row = document.createElement('tr');
+    if (statement.receipt === 0) {
+        row.innerHTML =
+        `<td class="date">${statement.date}</td>
+        <td class="time">${statement.time}</td>
+        <td class="type">${statement.type}</td>
+        <td class="receipt"></td>
+        <td class="expense">${statement.expense.toLocaleString('ru-RU', { style: 'currency', currency: 'EUR' })}</td>`;
+//Свойство innerHTML представляет собой содержимое элемента
+//(элементы-потомки, комментарии, текст и т. д.), которое хранится в нём в виде строки
+//обратные кавычки ` ` - для переноса строки (многострочноя строка)
+    } else {
+        row.innerHTML =
+        `<td class="date">${statement.date}</td>
+        <td class="time">${statement.time}</td>
+        <td class="type">${statement.type}</td>
+        <td class="receipt">${statement.receipt.toLocaleString('ru-RU', { style: 'currency', currency: 'EUR' })}</td>
+        <td class
+        ="expense"></td>`;
+    }
+    document.querySelector('.mainStatement').appendChild(row);
+//метод querySelector() возвращает первый элемент (Element) документа, который соответствует указанному селектору или группе селекторов.
+//Если совпадений не найдено, возвращает значение null.
+//Метод appendChild позволяет вставить в конец какого-либо другой элемент.
+//Чаще всего используется после создания элемента с помощью createElement.
+}
+
+function setStatementToMap(statement) {
+    let value = statementMap.get(statement.date);
+    console.log("let value   " + value);
+    if (value !== undefined) {
+    //Переменная, не имеющая присвоенного значения, обладает типом undefined
+    //Основное отличие в том, что undefined представляет значение переменной,
+    //которая ещё не была инициализирована, а null — намеренное отсутствие объекта.
+    //если значение неопределено - то суммируем в statement
+        value.receipt += statement.receipt;
+        console.log(value.receipt);
+        value.expense += statement.expense;
+        console.log(value.expense);
+    } else {
+        statementMap.set(statement.date, statement);
+        console.log("else " + statement.date + " " + statement);
+        //иначе заполняем мапу
+    }
+}
+
+function fillTableGroupByDate() {
+    statementMap.forEach((value) => { //Метод forEach() выполняет указанную функцию один раз для каждого элемента в массиве.
+        let receiptValue = value.receipt.toLocaleString('ru-RU', { style: 'currency', currency: 'EUR' });
+        let expenseValue = value.expense.toLocaleString('ru-RU', { style: 'currency', currency: 'EUR' });
+        let row = document.createElement('tr');
+        if (value.receipt === 0) {
+            row.innerHTML =
+            `<td>${value.date}</td>
+            <td></td>
+            <td>${expenseValue}</td>`;
+        } else if (value.expense === 0) {
+            row.innerHTML =
+            `<td>${value.date}</td>
+            <td>${receiptValue}</td>
+            <td></td>`;
+        } else {
+            row.innerHTML =
+            `<td>${value.date}</td>
+            <td>${receiptValue}</td>
+            <td>${expenseValue}</td>`;
+        }
+        document.querySelector('.secondStatement').appendChild(row);
+    })
+}
+
+function showColumn(id) { //включает отключает кнопки видимости
+    $(`.${id}`).toggle(); //toggle() позволяет отобразить или скрыть выбранные элементы.
+    if($('.container input').filter(':checked').length == 1) {
+        $('.container input').filter(':checked').attr('disabled', 'disabled');
+    } else {
+        $('.container input').removeAttr('disabled');
+    }
+}
+
+$('select').on('change', function() { //выполняет группировку по команде
+    switch (this.value) {
+        case "withoutGroup":
+            $('.container input').removeAttr('disabled'); //Метод .removeAttr() использует JavaScript функцию removeAttribute(),
+            //но может быть вызвана непосредственно от jQuery объекта и действует кроссбраузерно.
+            //removeAttribute удаляет атрибут с элемента.
+            break;
+        case "dateGroup" :
+            $('.container input').attr('disabled', 'false');
+            break;
+    }
+    $('.mainContent').toggle();
+    $('.secondContent').toggle();
+});
