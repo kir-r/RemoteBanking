@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Remote Banking Services</title>
+    <link rel='stylesheet' href='src/css/style.css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+<header>
+    <h1>Моя Выписка</h1>
+        <img class="user_picture" src="src/content/image1.jpg">
+    <p class="user_name">John Doe</p>
+</header>
+<main>
+    <div class="container">
+        <input id="date" type="checkbox" onclick="showColumn(id)" checked/>
+        <label for="date" class="label_checkbox">Дата</label>
+        <input id="time" type="checkbox" onclick="showColumn(id)" checked/>
+        <label for="time" class="label_checkbox">Время</label>
+        <input id="type" type="checkbox" onclick="showColumn(id)" checked/>
+        <label for="type" class="label_checkbox">Тип</label>
+        <input id="receipt" type="checkbox" onclick="showColumn(id)" checked/>
+        <label for="receipt" class="label_checkbox">Приход</label>
+        <input id="expense" type="checkbox" onclick="showColumn(id)" checked/>
+        <label for="expense" class="label_checkbox">Расход</label>
+    </div>
+    <div class="selector">
+        <label class="label_selector">Группировка</label>
+        <select>
+            <option selected="selected" value="withoutGroup">Без группировки</option>
+            <option value="dateGroup">По дате</option>
+        </select>
+    </div>
+    <div class="mainContent">
+        <table class="mainStatement">
+            <tr>
+                <th class="date">Дата</th>
+                <th class="time">Время</th>
+                <th class="type">Тип</th>
+                <th class="receipt">Приход</th>
+                <th class="expense">Расход</th>
+            </tr>
+        </table>
+    </div>
+    <div class="secondContent">
+        <table class="secondStatement">
+            <tr>
+                <th>Дата</th>
+                <th>Приход</th>
+                <th>Расход</th>
+            </tr>
+        </table>
+    </div>
+    <script src="src/statement.js"></script>
+</main>
+<footer>
+    <p>&copy; Deutsche Bank</p>
+</footer>
+</body>
+</html>

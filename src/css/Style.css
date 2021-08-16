@@ -1,0 +1,126 @@
+header {
+width: 950px;
+height: 70px;
+border: 2px solid black;
+margin: 0px auto;
+display: flex;
+align-items: center;
+}
+h1 {
+margin-left: 27px;
+font-size: 25px;
+}
+img.user_picture {
+width: 60px;
+height: 60px;
+border-radius: 50%;
+margin-left: 550px;
+margin-right: 20px;
+}
+p.user_name {
+font-size: 25px;
+}
+main {
+width: 950px;
+height: 500px;
+border: 2px solid black;
+margin: 0px auto;
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+input {
+position: absolute;
+z-index: -1;
+opacity: 0;
+}
+.label_checkbox {
+display: inline-flex;
+align-items: center;
+}
+ .label_checkbox::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+  input:checked + .label_checkbox::before {
+  content: "\00D7";
+  font-size: 59px;
+  }
+  input:disabled + .label_checkbox::before {
+  background-color: rgb(230, 230, 230);
+  }
+  table {
+  border-collapse: collapse;
+  }
+  tr, td {
+  width: 100px;
+  height: 35px;
+  border: 1px solid rgb(125, 125, 125);
+  padding: 3px 10px; text-align: left;
+  }
+  th {
+  border: 1px solid rgb(125, 125, 125);
+  background-color: rgb(200, 200, 200);
+  padding: 10px 70px;
+  }
+  .mainContent {
+  width: 920px;
+  height: 340px;
+  overflow-y: auto;
+  margin: 0px auto;
+  border: 2px solid black;
+  }
+   .secondContent {
+   display: none;
+   width: 935px;
+   height: 340px;
+   overflow-y: auto;
+   margin: 0px auto;
+   border: 1px solid black;
+   }
+   .container {
+   width: 935px;
+   height: 35px;
+   margin: 0px auto;
+   border: 2px solid black;
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   }
+   .label_checkbox {
+   font-size: 20px;
+   }
+   .label_selector {
+   margin-left: 5px;
+   font-size: 20px;
+   margin-right: 10px;
+   }
+    input {
+    margin-right: 10px;
+    }
+    select {
+    background-color: rgb(230, 230, 230);
+    margin-left: 15px; padding: 5px 0px;
+    }
+    .selector {
+    width: 935px;
+    margin: 20px 0px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    }
+    footer {
+    margin: 0px auto;
+    border: 2px solid black;
+    width: 950px;
+    padding: 10px 0px;
+    text-align: center;
+    font-size: 20px
+    }
